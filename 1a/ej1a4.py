@@ -62,24 +62,40 @@ tasks: Dict[int, Task] = {}
 
 
 def create_task(title: str) -> int:
-    # Write here your code
-    pass
+    # Generamos un ID único para la nueva tarea.
+    task_id = len(tasks) + 1
+    # Creamos la tarea con el título indicado y estado inicial pendiente.
+    tasks[task_id] = Task(task_id, title, status=TaskStatus.PENDING)
+    # Devolvemos el ID de la tarea creada.
+    return task_id
+
 
 
 def change_task_status(task_id: int, new_status: TaskStatus) -> bool:
-    # Write here your code
-    pass
+    # Comprobamos si el ID de la tarea existe en el diccionario.
+    if task_id in tasks:
+        # Creamos una nueva instancia de Task con el mismo ID y título, pero con el nuevo estado. Porque al ser inmutable no se puede modificar sólo ese valor
+        tasks[task_id] = Task(task_id, tasks[task_id].title, new_status)
+        # Indicamos que el estado se ha actualizado correctamente.
+        return True
+    else:
+        # Indicamos que no se ha encontrado ninguna tarea con el ID proporcionado.
+        return False
 
 
 def list_tasks() -> None:
-    # Write here your code
-    pass
+    # Recorremos todos los objetos Task almacenados en el diccionario.
+    for task in tasks.values():
+        # Imprimimos el ID, el título y el valor del estado de cada tarea.
+        # Se utiliza task.status.value en lugar de task.status, porque queremos mostrar el 
+        # texto del estado ("Pending", "In Progress" o "Completed") y no el nombre del miembro del Enum.
+        print(f"ID: {task.id}, Title: {task.title}, Status: {task.status.value}")
 
 
 # Para probar el código, descomenta las siguientes líneas 
-# if __name__ == "__main__":
-#     id1 = create_task("Learn Python")
-#     id2 = create_task("Read Enum documentation")
-#     change_task_status(id1, TaskStatus.IN_PROGRESS)
-#     change_task_status(id2, TaskStatus.COMPLETED)
-#     list_tasks()
+if __name__ == "__main__":
+    id1 = create_task("Learn Python")
+    id2 = create_task("Read Enum documentation")
+    change_task_status(id1, TaskStatus.IN_PROGRESS)
+    change_task_status(id2, TaskStatus.COMPLETED)
+    list_tasks()

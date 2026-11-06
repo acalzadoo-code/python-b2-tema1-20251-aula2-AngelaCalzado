@@ -55,40 +55,55 @@ inventory: Dict[Tuple[str, str], Product] = {}
 
 
 def add_product(name: str, category: str, quantity: int, price: float) -> Product:
-    # Complete the code
-    pass
+    # Creamos una clave combinando el nombre y la categoría del producto.
     key = (name, category)
-    if key in :
-        existing_product = 
-        existing_product. += 
-        existing_product. = 
+    # Comprobamos si el producto ya existe en el inventario.
+    if key in inventory:
+        # Recuperamos el producto existente
+        existing_product = inventory[key]
+        # Sumamos la nueva cantidad a las unidades disponibles.
+        existing_product.quantity += quantity
+        # Actualizamos el precio del producto.
+        existing_product.price = price 
     else:
-         = Product
-    return 
+        # Creamos y almacenamos un nuevo producto en el inventario.
+        inventory[key] = Product(name, category, quantity, price)
+    # Devolvemos el producto añadido o actualizado.
+    return inventory[key]
 
 
 def list_products() -> str:
-    # Complete the code
-    pass
-    for product in :
-            (f"{product.name} ({product.category}) - {product.quantity} units at ${product.price} each")
-        return
+    # Inicializamos una cadena vacía para almacenar la información de los productos.
+    products_list = ""
+    # Recorremos todos los productos almacenados en el inventario.
+    for product in inventory.values():
+        # Añadimos a la cadena los datos de cada producto.
+        products_list += (f"{product.name} ({product.category}) - {product.quantity} units at ${product.price} each")
+    # Devolvemos la cadena con la información de todos los productos.
+    return products_list
 
 
 def find_product(name: str, category: str) -> Optional[Product]:
-    # Write here your code
-    pass
+    # Creamos una clave combinando el nombre y la categoría del producto.
+    key = (name, category)
+    # Comprobamos si la clave existe en el inventario.
+    if key in inventory:
+        # Devolvemos el producto asociado a esa clave.
+        return inventory[key]
+    else:
+        # Devolvemos None si el producto no se encuentra en el inventario.
+        return None
 
 
 # Para probar el código, descomenta las siguientes líneas
-# if __name__ == "__main__":
-#     add_product("Apples", "Fruits", 100, 0.50)
-#     add_product("Pears", "Fruits", 50, 0.70)
-#     add_product("Apples", "Fruits", 50, 0.55)
+if __name__ == "__main__":
+    add_product("Apples", "Fruits", 100, 0.50)
+    add_product("Pears", "Fruits", 50, 0.70)
+    add_product("Apples", "Fruits", 50, 0.55)
 
-#     print(list_products())
-#     found_product = find_product("Apples", "Fruits")
-#     if found_product:
-#         print(f"Product found: {found_product.name} ({found_product.category}) - {found_product.quantity} units at ${found_product.price} each")
-#     else:
-#         print("Product not found.")
+    print(list_products())
+    found_product = find_product("Apples", "Fruits")
+    if found_product:
+        print(f"Product found: {found_product.name} ({found_product.category}) - {found_product.quantity} units at ${found_product.price} each")
+    else:
+        print("Product not found.")
